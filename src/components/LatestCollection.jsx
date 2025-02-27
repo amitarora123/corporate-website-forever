@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ShopContext } from "../context/ShopContext";
 import Title from "./Title";
+import ProductItem from "./ProductItem";
 
 const LatestCollection = () => {
   const { products } = useContext(ShopContext);
@@ -15,21 +16,17 @@ const LatestCollection = () => {
       <div className="py-8 text-3xl text-center">
         <Title text1={"LATEST"} text2={"COLLECTION"} />
         <p className="w-3/4 m-auto text-xs text-gray-600 sm:text-sm md:text-base">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minus sunt,
-          perspiciatis quas architecto dignissimos magnam assumenda placeat
-          reiciendis laborum quibusdam necessitatibus modi nesciunt, quo
-          delectus maiores tempora omnis iusto? Sunt, tempore laborum?
+          Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry. Lorem Ipsum has been the.
         </p>
       </div>
 
-      {/* Rendering Products*/ }
+      {/* Rendering Products*/}
 
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-y-6">
-        {
-            latestProducts.map((item, index)=>{
-                <ProductItem  key={index} id={item.id}/>
-            })
-        }
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-5 gap-y-6">
+        {latestProducts.map((item, index) => (
+          <ProductItem key={index} _id={item._id} item={item}/>
+        ))}
       </div>
     </div>
   );
