@@ -5,8 +5,14 @@ import { assets } from "../assets/frontend_assets/assets";
 import CartTotal from "../components/CartTotal";
 
 const Cart = () => {
-  const { products, currency, cartItems, updateQuantity, navigate } =
-    useContext(ShopContext);
+  const {
+    products,
+    currency,
+    cartItems,
+    updateQuantity,
+    navigate,
+    getCartCount,
+  } = useContext(ShopContext);
 
   const [cartData, setCartData] = useState([]);
 
@@ -86,7 +92,9 @@ const Cart = () => {
         })}
       </div>
 
-      <div className="flex justify-end my-20">
+      <div
+        className={`flex justify-end my-20 `}
+      >
         <div className="w-full sm:w-[450px]">
           <CartTotal />
 

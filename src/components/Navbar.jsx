@@ -45,11 +45,13 @@ const Navbar = () => {
         />
 
         <div className="relative group">
-          <img
-            src={assets.profile_icon}
-            alt="profile"
-            className="w-5 cursor-pointer"
-          />
+          <Link to="/login">
+            <img
+              src={assets.profile_icon}
+              alt="profile"
+              className="w-5 cursor-pointer"
+            />
+          </Link>
           <div className="absolute right-0 hidden pt-4 group-hover:block dropdown-menu">
             <div className="flex flex-col gap-2 px-5 py-3 text-gray-500 rounded w-36 bg-slate-100">
               <p className="cursor-pointer hover:text-black">My Profile</p>
@@ -62,7 +64,7 @@ const Navbar = () => {
         <Link to="/cart" className="relative">
           <img src={assets.cart_icon} alt="cart" className="w-5 min-w-5" />
           <p className="absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px]">
-            {getCartCount() || 0}
+            {getCartCount()}
           </p>
         </Link>
 

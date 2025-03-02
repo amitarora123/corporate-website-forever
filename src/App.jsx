@@ -12,6 +12,8 @@ import Navbar from "./components/Navbar"
 import Footer from "./components/Footer";
 import SearchBar from "./components/SearchBar";
 import { ToastContainer, toast } from 'react-toastify';
+import ScrollToTop from "./components/ScrollToTop";
+import PlaceOrder from "./pages/PlaceOrder";
 
 const App = () => {
   return (
@@ -19,6 +21,7 @@ const App = () => {
       <ToastContainer />
       <Navbar />
       <SearchBar />
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/collection" element={<Collection />} />
@@ -28,7 +31,8 @@ const App = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/place-order" element={<Orders />} />
+        <Route path="/place-order" element={<PlaceOrder />} />
+        <Route path="/orders" element={<Orders />} />
       </Routes>
       <Footer />
     </div>

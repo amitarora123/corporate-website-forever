@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const ProductItem = ({ _id, item }) => {
   return (
-    <Link to={`/product/${_id}`} key={_id} className="flex flex-col gap-2 ">
+    <Link to={`/product/${_id}`} key={_id} className="flex flex-col gap-2 " onClick={() => {}}>
       <div>
         <img src={item.image[0]} alt="" className="" />
       </div>
