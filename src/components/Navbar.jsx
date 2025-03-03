@@ -1,12 +1,31 @@
 import React, { useContext, useEffect, useState } from "react";
 import { assets } from "../assets/frontend_assets/assets";
 import { Link, NavLink } from "react-router-dom";
-import { ShopContext } from "../context/ShopContext";
+import { backendUrl, ShopContext } from "../context/ShopContext";
+import axios from "axios";
+import { toast } from "react-toastify";
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
 
-  const { setShowSearch, getCartCount } = useContext(ShopContext);
+  const { setShowSearch, getCartCount, setAuthStatus, navigate } =
+    useContext(ShopContext);
 
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post(
+        backendUrl + "/api/v1/users/logout",
+        {},
+        { withCredentials: true }
+      );
+
+      setAuthStatus(false);
+      toast.success(response.data.message);
+      navigate("/login");
+    } catch (error) {
+      toast.error(error.response.data.message);
+      console.log(error);
+    }
+  };
   return (
     <div className="flex items-center justify-between py-5 font-medium">
       <img src={assets.logo} alt="logo" className="w-36" />
@@ -56,7 +75,12 @@ const Navbar = () => {
             <div className="flex flex-col gap-2 px-5 py-3 text-gray-500 rounded w-36 bg-slate-100">
               <p className="cursor-pointer hover:text-black">My Profile</p>
               <p className="cursor-pointer hover:text-black">Orders</p>
-              <p className="cursor-pointer hover:text-black">Logout</p>
+              <p
+                onClick={handleLogout}
+                className="cursor-pointer hover:text-black"
+              >
+                Logout
+              </p>
             </div>
           </div>
         </div>
