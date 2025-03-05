@@ -17,21 +17,24 @@ const Cart = () => {
   const [cartData, setCartData] = useState([]);
 
   useEffect(() => {
-    const tempData = [];
+    if (products.length) {
+      const tempData = [];
 
-    for (const items in cartItems) {
-      for (const item in cartItems[items]) {
-        if (cartItems[items][item] > 0) {
-          tempData.push({
-            _id: items,
-            size: item,
-            quantity: cartItems[items][item],
-          });
+      for (const items in cartItems) {
+        for (const item in cartItems[items]) {
+          if (cartItems[items][item] > 0) {
+            tempData.push({
+              _id: items,
+              size: item,
+              quantity: cartItems[items][item],
+            });
+          }
         }
       }
+      setCartData(tempData);
     }
-    setCartData(tempData);
-  }, [cartItems]);
+  }, [cartItems, products]);
+
   return (
     <div className="border-t pt-14">
       <div className="mb-3 text-2xl">
@@ -92,9 +95,7 @@ const Cart = () => {
         })}
       </div>
 
-      <div
-        className={`flex justify-end my-20 `}
-      >
+      <div className={`flex justify-end my-20 `}>
         <div className="w-full sm:w-[450px]">
           <CartTotal />
 

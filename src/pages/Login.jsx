@@ -43,7 +43,6 @@ const Login = () => {
         }
       );
 
-      console.log(response.data.success);
       if (response.data.success) {
         toast.success(response.data.message);
         setAuthStatus(true);

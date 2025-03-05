@@ -16,6 +16,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import PlaceOrder from "./pages/PlaceOrder";
 import { backendUrl, ShopContext } from "./context/ShopContext";
 import axios from "axios";
+import Verify from "./pages/Verify";
 
 const App = () => {
   const { authStatus, setAuthStatus } = useContext(ShopContext);
@@ -32,7 +33,6 @@ const App = () => {
 
         if (response.data.success) {
           setAuthStatus(true);
-          console.log(response.data);
         }
       } catch (error) {
         setAuthStatus(false);
@@ -61,6 +61,7 @@ const App = () => {
 
         <Route path="/place-order" element={<PlaceOrder />} />
         <Route path="/orders" element={<Orders />} />
+        <Route path="/verify" element={<Verify />} />
       </Routes>
       <Footer />
     </div>

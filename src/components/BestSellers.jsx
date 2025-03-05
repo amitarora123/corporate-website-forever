@@ -9,7 +9,6 @@ const BestSellers = () => {
   useEffect(() => {
 
     const bestProducts = products.filter((item) => (item.bestseller));
-    console.log(bestProducts);
     setBestSellers(bestProducts);
   }, [products]);
   return <div className="my-10">

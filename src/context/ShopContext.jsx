@@ -7,7 +7,6 @@ export const ShopContext = createContext();
 
 export const backendUrl = import.meta.env.VITE_BACKEND_URL;
 const ShopContextProvider = ({ children }) => {
-
   const [authStatus, setAuthStatus] = useState(false);
 
   const currency = "$";
@@ -21,30 +20,64 @@ const ShopContextProvider = ({ children }) => {
   const getProductsData = async () => {
     try {
       const response = await axios.get(backendUrl + "/api/v1/products/list");
-      console.log(response.data);
-      setProducts(response.data.data)
+      setProducts(response.data.data);
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
     }
   };
   const addToCart = async (itemId, size) => {
-    if (!size) {
-      toast.error("Select Product size");
-      return;
-    }
-    let cartData = structuredClone(cartItems);
-    if (cartData[itemId]) {
-      if (cartData[itemId][size]) {
-        cartData[itemId][size] += 1;
+    if (authStatus) {
+      if (!size) {
+        toast.error("Select Product size");
+        return;
+      }
+      let cartData = structuredClone(cartItems);
+      if (cartData[itemId]) {
+        if (cartData[itemId][size]) {
+          cartData[itemId][size] += 1;
+        } else {
+          cartData[itemId][size] = 1;
+        }
       } else {
+        cartData[itemId] = {};
         cartData[itemId][size] = 1;
       }
+      setCartItems(cartData);
+
+      try {
+        await axios.post(
+          backendUrl + "/api/v1/cart",
+          { itemId, size },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            withCredentials: true,
+          }
+        );
+
+    
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
     } else {
-      cartData[itemId] = {};
-      cartData[itemId][size] = 1;
+      toast.error("Login to use cart functionality");
     }
-    setCartItems(cartData);
+  };
+  const getUserCart = async () => {
+    try {
+      const response = await axios.get(backendUrl + "/api/v1/cart/", {
+        withCredentials: true,
+      });
+
+      if (response.data) {
+        setCartItems(response.data.data);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
   };
 
   const getCartCount = () => {
@@ -69,6 +102,24 @@ const ShopContextProvider = ({ children }) => {
 
     cartData[itemId][size] = quantity;
     setCartItems(cartData);
+
+    if (authStatus) {
+      try {
+        const response = await axios.put(
+          backendUrl + "/api/v1/cart/",
+          { itemId, size, quantity },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            withCredentials: true,
+          }
+        );
+      } catch (error) {
+        console.log(error);
+        toast.error(error.response.data.message);
+      }
+    }
   };
 
   const getCartAmount = () => {
@@ -88,6 +139,7 @@ const ShopContextProvider = ({ children }) => {
   };
   useEffect(() => {
     getProductsData();
+    getUserCart();
   }, []);
 
   const value = {
@@ -105,7 +157,8 @@ const ShopContextProvider = ({ children }) => {
     getCartAmount,
     navigate,
     authStatus,
-    setAuthStatus
+    setAuthStatus,
+    setCartItems,
   };
 
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;
